@@ -1,0 +1,14 @@
+.blue {
+  color: blue;
+}
+
+.red {
+  color: red;
+}
+
+.bg-main {
+  background-image: url("../public/logo512.png");
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+}
