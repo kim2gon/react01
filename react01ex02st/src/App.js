@@ -4,9 +4,25 @@ import "./App.css";
 // 부모 컴포넌트
 function App() {
   const [tasks, setTasks] = useState([]);
-  
-  const ToDo = (props) => {
-    return (
+  const [newTask, setNewTask] = useState("");
+
+  const handleInputChange = (e) =>{
+    console.log(e.target.value);
+    setNewTask(e.target.value);
+  }
+  const handleAddTask = () => {
+    setTasks([...tasks, newTask]);
+    setNewTask("");
+  }
+  const handleRemoveTask = (index) =>{
+    const confirm = window.confirm('정말로 지우시겠습니까?');
+    if(confirm){
+      const updatedTasks = [...tasks];
+      updatedTasks.splice(index,1);
+      setTasks(updatedTasks)
+    }
+  }
+    return(
       <>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
@@ -15,27 +31,42 @@ function App() {
       <input
       type="text"
       placeholder="할 일을 입력하세요"
+      value={newTask}
+      onChange={handleInputChange}
       className="flex-grow p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <button className="px-4 py-2 text-white bg-blue-500 rounded-r-md hover:bg-blue-600">
+      <button 
+      onClick={handleAddTask}
+      className="px-4 py-2 text-white bg-blue-500 rounded-r-md hover:bg-blue-600">
       추가
       </button>
       </div>
       <ul>
       {/* li는 따로 TodoItem이라는 자식 컴포넌트를 만들어서 관리해주세요. */}
-      <li className="flex items-center justify-between px-4 py-2 mb-2 bg-white rounded-lg shadow-md cursor-pointer hover:bg-gray-100">
-      <span>여기에 입력한 값을 넣어주세요</span>
-      <button className="text-red-500 hover:text-red-700">삭제</button>
-      </li>
+      {tasks.map((task,index)=>(
+        <TodoItem
+          key = {task}
+          task = {task}
+          index = {index}
+          handleRemoveTask = {handleRemoveTask}
+        />
+      ))}
       </ul>
       </div>
       </div>
       </>
-    );
-  }
+  )
 }
-
 // 자식 컴포넌트
-function TodoItem() {}
+function TodoItem({task, index, handleRemoveTask}) {
+  return(
+    <li className="flex items-center justify-between px-4 py-2 mb-2 bg-white rounded-lg shadow-md cursor-pointer hover:bg-gray-100">
+    <span>{task}</span>
+      <button 
+      onClick={()=>handleRemoveTask(index)}
+      className="text-red-500 hover:text-red-700">삭제</button>
+      </li>
+    )
+}
 
 export default App;
