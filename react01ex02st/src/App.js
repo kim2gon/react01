@@ -3,8 +3,8 @@ import "./App.css";
 
 // 부모 컴포넌트
 function App() {
-  const [state, userState] = useState(0)
-  const [newTask, userTask] = useState(0)
+  const [tasks, setTasks] = useState([]);
+  
   const ToDo = (props) => {
     return (
       <>
